@@ -297,23 +297,33 @@ glogo1.trigger = Transition.EndNavigation;
 
 class GenreImage1
 {
-    mode = 1;       //0 = first match, 1 = last match, 2 = random
+    mode = 2;       //0 = first match, 1 = last match, 2 = random
     supported = {
         //filename : [ match1, match2 ]
-        "action": [ "action" ],
+        "action": [ "action","gun", "climbing" ],
         "adventure": [ "adventure" ],
-        "fighting": [ "fighting", "fighter", "beat'em up" ],
+        "arcade": [ "arcade" ],
+        "casino": [ "casino" ],
+        "computer": [ "computer" ],
+        "console": [ "console" ],
+        "collection": [ "collection" ],
+        "fighter": [ "fighting", "fighter", "beat-'em-up" ],
+        "handheld": [ "handheld" ],
         "platformer": [ "platformer", "platform" ],
-        "puzzle": [ "puzzle" ],
+        "mahjong": [ "mahjong" ],
         "maze": [ "maze" ],
-		"paddle": [ "paddle" ],
-		"rhythm": [ "rhythm" ],
-		"pinball": [ "pinball" ],
-		"racing": [ "racing", "driving" ],
+        "paddle": [ "breakout", "paddle" ],
+        "puzzle": [ "puzzle" ],
+	"pinball": [ "pinball" ],
+	"quiz": [ "quiz" ],
+	"racing": [ "racing", "driving","motorcycle" ],
         "rpg": [ "rpg", "role playing", "role-playing" ],
-        "shooter": [ "shooter", "shmup" ],
-        "sports": [ "sports", "boxing", "golf", "baseball", "football", "soccer" ],
-        "strategy": [ "strategy"]
+	"rhythm": [ "rhythm" ],
+        "shooter": [ "shooter", "shmup", "shoot-'em-up" ],
+	"simulation": [ "simulation" ],
+        "sports": [ "sports", "boxing", "golf", "baseball", "football", "soccer", "tennis", "hockey" ],
+        "strategy": [ "strategy"],
+        "utility": [ "utility" ]
     }
 
     ref = null;

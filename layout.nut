@@ -11,7 +11,8 @@ class UserConfig {
 </ label=" ", help=" ", options=" ", order=8 /> divider1="";
 </ label="--------    Extra images     --------", help="Show or hide additional images", order=9 /> uct2="select below";
    </ label="Enable box art", help="Select box art", options="Yes,No", order=10 /> enable_gboxart="Yes";
-   </ label="Enable cartridge art", help="Select cartridge art", options="Yes,No", order=10 /> enable_gcartart="Yes";     
+   </ label="Enable cartridge art", help="Select cartridge art", options="Yes,No", order=11 /> enable_gcartart="Yes";
+   </ label="Game media style", help="Select game media style", options="Animated,Static", order=12 /> enable_mediastyle="Static"   
 </ label=" ", help=" ", options=" ", order=12 /> divider2="";
 </ label="--------    Game info box    --------", help="Show or hide game info box", order=13 /> uct5="select below";
    </ label="Enable game information", help="Show game information", options="Yes,No", order=14 /> enable_ginfo="Yes";
@@ -20,6 +21,7 @@ class UserConfig {
 </ label="--------    Miscellaneous    --------", help="Miscellaneous options", order=17 /> uct6="select below";
    </ label="Enable random text colors", help=" Select random text colors.", options="Yes,No", order=18 /> enable_colors="Yes";
    </ label="Enable monitor static effect", help="Show static effect when snap is null", options="Yes,No", order=19 /> enable_static="Yes"; 
+   </ label="Random Wheel Sounds", help="Play random sounds when navigating games wheel", options="Yes,No", order=25 /> enable_random_sound="Yes";
 }
 
 local my_config = fe.get_config();
@@ -250,6 +252,25 @@ conveyor.transition_ms = 50;
 try { conveyor.transition_ms = my_config["transition_ms"].tointeger(); } catch ( e ) { }
 }
 
+// Play random sound when transitioning to next / previous game on wheel
+function sound_transitions(ttype, var, ttime) 
+{
+	if (my_config["enable_random_sound"] == "Yes")
+	{
+		local random_num = floor(((rand() % 1000 ) / 1000.0) * (124 - (1 - 1)) + 1);
+		local sound_name = "sounds/GS"+random_num+".mp3";
+		switch(ttype) 
+		{
+		case Transition.EndNavigation:		
+			local Wheelclick = fe.add_sound(sound_name);
+			Wheelclick.playing=true;
+			break;
+		}
+		return false;
+	}
+}
+fe.add_transition_callback("sound_transitions")
+
 //////////////////////////////////////////////////////////////////////////////////
 // Game information to show inside text box frame
 if ( my_config["enable_ginfo"] == "Yes" )
@@ -403,16 +424,30 @@ function color_transitions( ttype, var, ttime ) {
 }}
 
 //////////////////////////////////////////////////////////////////////////////////
-// Box art to display, uses the emulator.cfg path for boxart image location
+// Box art/Cart art to display, uses the emulator.cfg path for image location
 
-if ( my_config["enable_gboxart"] == "Yes" )
+// Static media style
+if ( my_config["enable_gboxart"] == "Yes" && my_config["enable_mediastyle"] == "Static" )
+{
+local boxartstatic = fe.add_artwork("boxart", flx*0.5, fly*0.4, flw*0.25, flh*0.45 );
+boxartstatic.preserve_aspect_ratio = true;
+}
+
+if ( my_config["enable_gcartart"] == "Yes" && my_config["enable_mediastyle"] == "Static" )
+{
+local cartartstatic = fe.add_artwork("cartart", flx*0.625, fly*0.675, flw*0.2, flh*0.2 );
+cartartstatic.preserve_aspect_ratio = true;
+}
+
+// Animated media style
+if ( my_config["enable_gboxart"] == "Yes" && my_config["enable_mediastyle"] == "Animated" )
 ::OBJECTS <- {
  boxart = fe.add_artwork("boxart", flx*0.5, fly*-2, flw*0.25, flh*0.45 ),
 }
 
 OBJECTS.boxart.preserve_aspect_ratio = true;
 OBJECTS.boxart.trigger = Transition.EndNavigation;
-if ( my_config["enable_gboxart"] == "Yes" )
+if ( my_config["enable_gboxart"] == "Yes" && my_config["enable_mediastyle"] == "Animated" )
 {
 //Animation for Global & Expert Mode
 local move_transition1 = {
@@ -423,14 +458,14 @@ local move_transition1 = {
 animation.add( PropertyAnimation( OBJECTS.boxart, move_transition1 ) );
 }
 
-if ( my_config["enable_gcartart"] == "Yes" )
+if ( my_config["enable_gcartart"] == "Yes" && my_config["enable_mediastyle"] == "Animated" )
 ::OBJECTS <- {
  cartart = fe.add_artwork("cartart", flx*2, fly*0.675, flw*0.2, flh*0.2 ),
 }
 
 OBJECTS.cartart.preserve_aspect_ratio = true;
 OBJECTS.cartart.trigger = Transition.EndNavigation;
-if ( my_config["enable_gcartart"] == "Yes" )
+if ( my_config["enable_gcartart"] == "Yes" && my_config["enable_mediastyle"] == "Animated" )
 {
 //Animation for Global & Expert Mode
 local move_transition1 = {
@@ -439,3 +474,4 @@ local move_transition1 = {
 //Animation
 animation.add( PropertyAnimation( OBJECTS.cartart, move_transition1 ) );
 }
+

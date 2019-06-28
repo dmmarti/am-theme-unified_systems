@@ -445,15 +445,16 @@ if ( my_config["enable_gboxart"] == "Yes" && my_config["enable_mediastyle"] == "
  boxart = fe.add_artwork("boxart", flx*0.5, fly*-2, flw*0.25, flh*0.45 ),
 }
 
-OBJECTS.boxart.preserve_aspect_ratio = true;
-OBJECTS.boxart.trigger = Transition.EndNavigation;
+
+
 if ( my_config["enable_gboxart"] == "Yes" && my_config["enable_mediastyle"] == "Animated" )
 {
 //Animation for Global & Expert Mode
 local move_transition1 = {
   when = Transition.EndNavigation ,property = "y", start = fly*-2, end = fly*0.4, time = 750, tween = Tween.Back
 }
-
+OBJECTS.boxart.preserve_aspect_ratio = true;
+OBJECTS.boxart.trigger = Transition.EndNavigation;
 //Animation
 animation.add( PropertyAnimation( OBJECTS.boxart, move_transition1 ) );
 }
@@ -463,14 +464,16 @@ if ( my_config["enable_gcartart"] == "Yes" && my_config["enable_mediastyle"] == 
  cartart = fe.add_artwork("cartart", flx*2, fly*0.675, flw*0.2, flh*0.2 ),
 }
 
-OBJECTS.cartart.preserve_aspect_ratio = true;
-OBJECTS.cartart.trigger = Transition.EndNavigation;
+
+
 if ( my_config["enable_gcartart"] == "Yes" && my_config["enable_mediastyle"] == "Animated" )
 {
 //Animation for Global & Expert Mode
 local move_transition1 = {
   when = Transition.EndNavigation ,property = "x", start = flx*2, end = flx*0.625, time = 750, tween = Tween.Back
 }
+OBJECTS.cartart.preserve_aspect_ratio = true;
+OBJECTS.cartart.trigger = Transition.EndNavigation;
 //Animation
 animation.add( PropertyAnimation( OBJECTS.cartart, move_transition1 ) );
 }

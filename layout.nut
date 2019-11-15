@@ -20,7 +20,7 @@ class UserConfig {
 </ label=" ", help=" ", options=" ", order=16 /> divider5="";
 </ label="--------    Miscellaneous    --------", help="Miscellaneous options", order=17 /> uct6="select below";
    </ label="Enable random text colors", help=" Select random text colors.", options="Yes,No", order=18 /> enable_colors="Yes";
-   </ label="Enable monitor static effect", help="Show static effect when snap is null", options="Yes,No", order=19 /> enable_static="Yes"; 
+   </ label="Enable monitor static effect", help="Show static effect when snap is null", options="Yes,No", order=19 /> enable_static="No"; 
    </ label="Random Wheel Sounds", help="Play random sounds when navigating games wheel", options="Yes,No", order=25 /> enable_random_sound="Yes";
 }
 
@@ -70,15 +70,14 @@ if ( my_config["enable_static"] == "Yes" )
 }
  else
  {
- local temp = fe.add_text("", flx*0.155, fly*0.07, flw*0.69, flh*0.57 );
- temp.bg_alpha = SNAPBG_ALPHA;
+ local temp = fe.add_image( "static.png", flx*0.0775, fly*0.29, flw*0.405, flh*0.55 );
  }
 
 //create surface for snap
 local surface_snap = fe.add_surface( 640, 480 );
 local snap = FadeArt("snap", 0, 0, 640, 480, surface_snap);
 snap.trigger = Transition.EndNavigation;
-snap.preserve_aspect_ratio = false;
+snap.preserve_aspect_ratio = true;
 
 //now position and pinch surface of snap
 //adjust the below values for the game video preview snap
